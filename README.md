@@ -67,49 +67,4 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 
-## Deployment process
- 
-![image](https://user-images.githubusercontent.com/106740093/215475573-6d67717c-8a76-44e6-9dd7-8ef4b2808bdb.png)
-
-Aws services used:
-
-> **IAM** to create user and give permissions   
-> **S3** to create static website   
-> **CloudFront** to redirect http from s3 to https   
-> **ACM** to choose or issue certificate for domain   
-> **Route53** to point domain to CloudFront distribution   
-
-#### Two main environments:
-
-Dev: https://dev-app.compiify.com/ 
-
-Staging: https://staging-app.compiify.com/
-
-github branches named same as environments   
-
-Dev branch:   
-- all changes are pushed by creating a pull request from the branches created for individual tasks.  
-- direct push changes are prohibited. 
-- the pull request is made with the "squash and merge" option.   
-- the branch created for a separate issue should be deleted after the merge is done.   
-
-Staging branch:   
--   changes are made only through the creation of a pull request from the development branch.
--   direct push changes or pull requests from other branches are prohibited.   
-
-**Github Workflow**
-
-1. After merge to dev or staging branch it trigger workflow script
-
-2. Next it configure AWS credentials that added in github secrets before to have access to AWS services
-
-3. Finally it build and deploy to already configured s3 bucket and create new invalidation in CloudFront
-
-**On AWS side**
-
-1. Before github deploy artifact to s3 IAM check if that user credentials we  added before in github secrets can put objects into bucket
-
-2. After putting objects to s3 bucket Cloudfront will look for s3 http url and redirect it to https with ACM certificate
-
-3. In Route53 in hosted zone that have configured domain we point our domain to CloudFront distribution
 
